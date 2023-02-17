@@ -55,9 +55,55 @@ var tablero = document.querySelector(".tablero");
 let imgEscogidaID = [];
 let imgEscogidaNombre = [];
 
+
 //variable contadora de aciertos
-let aciertos = document.querySelector(".aciertos");
-let contador = 0;
+let mostrarAciertos = document.querySelector(".aciertos");
+let aciertos = 0;
+// variable contadora de intentos
+let mostrarIntentos = document.querySelector('.intentos');
+let intentos = 0;
+// variable para el cronometro
+let mostrarTiempo = document.querySelector('.tiempo');
+let tiempo = 60; // de forma incremental en 0, decrecer se pone desde le numero mayor, ej: 60
+let btnIniciar = document.querySelector('.iniciar');
+
+// variable contadora de niveles
+let nivel = 1;
+mostrartNivel = document.querySelector('.nivel');
+
+let segundos;
+let estoyJugando = false;
+
+
+//evento para iniciar el juego
+btnIniciar.addEventListener('click', function contarTiempo(){
+  // btnIniciar.removeEventListener('click', contarTiempo, false);
+
+  estoyJugando = true;
+
+  agregarImagenes();
+
+  segundos = setInterval(function(){
+    tiempo-- //tiempo++ forma incremental, tiempo-- decremental
+    mostrarTiempo.textContent = tiempo;
+
+    if ( tiempo == 10){
+      // clearInterval(segundos);
+      mostrarTiempo.style.color = "red";
+      mostrarTiempo.style.fontSize = "40px";
+    }
+    if ( tiempo == 0){
+      // clearInterval(segundos);
+      alert('Tiempo finalizado, PERDISTE');
+      location.reload();
+      
+    }
+
+
+
+  },1000)
+})
+
 
 // agregar imagenes al tablero por js
 function agregarImagenes() {
@@ -73,7 +119,15 @@ function agregarImagenes() {
     tablero.appendChild(div);
   }
 }
-agregarImagenes();
+
+function quitarImagenes(){
+
+  let imagenesTablero = document.querySelectorAll('.tablero > div')
+
+  for (let i = 0; i < imagenesTablero.length; i++) {
+      imagenesTablero[i].remove();
+  }
+}
 
 // funcion para descubrir las imagenes (darle vuelta)
 
@@ -97,18 +151,14 @@ function compararImagenes() {
   let TodasImagenes = document.querySelectorAll(".tablero > div > img");
   // comparar imagenes escogidas
   if (imgEscogidaNombre[0] == imgEscogidaNombre[1]) {
+
     //validar que no escojan la misma imagen
     if (imgEscogidaID[0] == imgEscogidaID[1]) {
-      alert("Debe escoger imagenes diferentes");
 
-      TodasImagenes[imgEscogidaID[0]].setAttribute(
-        "src",
-        "imagenes/interrogacion.png"
-      );
-      TodasImagenes[imgEscogidaID[1]].setAttribute(
-        "src",
-        "imagenes/interrogacion.png"
-      );
+      alert("Debe escoger imagenes diferentes");
+      TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
+      TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
+
     } else {
       // removeEventListener a las img
 
@@ -132,16 +182,14 @@ function compararImagenes() {
         descubrirImagen,
         false
       );
-      contador++;
-      console.log(contador);
-      aciertos.textContent = contador;
+      aciertos++;
+      // console.log(contador);
+      mostrarAciertos.textContent = aciertos;
 
-      if (contador >= 6) {
-        alert("Ganaste!!!!!!!!!!!!");
-      }
+      
     }
   } else {
-    alert("Son diferentes");
+    alert("Fallaste, No son la misma imagen");
     TodasImagenes[imgEscogidaID[0]].setAttribute(
       "src",
       "imagenes/interrogacion.png"
@@ -154,4 +202,32 @@ function compararImagenes() {
   // reiniciar la variable
   imgEscogidaNombre = [];
   imgEscogidaID = [];
+  intentos++;
+  mostrarIntentos.textContent = intentos;
+  if (aciertos == 6) {
+    alert("Ganaste!!!!!!!!!!!!");
+    
+    
+    // location.reload();
+    clearInterval(segundos);
+    aciertos = 0;
+    intentos = 0;
+    tiempo = 60;
+    nivel++
+
+    // validacion para saber si está jugando y en qué nivel 
+    estoyJugando = false;
+    if (nivel == x && estoyJugando == true){
+      // validacion
+    }
+
+    mostrarAciertos.textContent= aciertos;
+    mostrarIntentos.textContent = intentos;
+    mostrarTiempo.textContent = tiempo;
+    mostrartNivel.textContent = nivel;
+    quitarImagenes();
+
+
+
+  }
 }
