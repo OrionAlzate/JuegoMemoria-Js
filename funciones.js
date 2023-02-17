@@ -85,6 +85,8 @@ function iniciarJuego(){
     agregarImagenes();
 
     estoyJugando = true;
+    // validar boton click para no reiniciar el tablero
+
     if ( estoyJugando == true){
       btnIniciar.removeEventListener('click', contarTiempo);
     } 
@@ -96,10 +98,10 @@ function iniciarJuego(){
       tiempo-- //tiempo++ forma incremental, tiempo-- decremental
       mostrarTiempo.textContent = tiempo;
   
-      if (tiempo == 10) {
+      if (tiempo == 20) {
         // clearInterval(segundos);
         mostrarTiempo.style.color = "red";
-        mostrarTiempo.style.fontSize = "40px";
+        mostrarTiempo.style.fontWeight = "900";
       }
       if (tiempo == 0) {
         // clearInterval(segundos);
@@ -184,7 +186,7 @@ function compararImagenes() {
     } else {
       // removeEventListener a las img
 
-      alert(`Acertaste!`);
+      // alert(`Acertaste!`);
 
       TodasImagenes[imgEscogidaID[0]].setAttribute(
         "src",
@@ -211,7 +213,7 @@ function compararImagenes() {
 
     }
   } else {
-    alert("Fallaste, No son la misma imagen");
+    // alert("Fallaste, No son la misma imagen");
     TodasImagenes[imgEscogidaID[0]].setAttribute(
       "src",
       "imagenes/interrogacion.png"
@@ -227,15 +229,32 @@ function compararImagenes() {
   intentos++;
   mostrarIntentos.textContent = intentos;
   if (aciertos == 6) {
-    alert("Ganaste!!!!!!!!!!!!");
+    alert(`Felicitaciones, ganaste el nivel ${nivel}`);
 
 
     // location.reload();
     clearInterval(segundos);
     aciertos = 0;
     intentos = 0;
-    tiempo = 60;
     nivel++
+
+    if (nivel == 2){
+      tiempo = 40;
+    } else if (nivel == 3){
+      tiempo = 30;
+    } else if (nivel > 3 && nivel < 5){
+      tiempo = 20
+    } else if ( nivel <= 6){
+      tiempo = 15
+      alert('JUEGO COMPLETADO, GANASTE!')
+      location.reload();
+
+      
+    } else {
+      tiempo = 60
+    }
+
+
 
 
     mostrarAciertos.textContent = aciertos;
