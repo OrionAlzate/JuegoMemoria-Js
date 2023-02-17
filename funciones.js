@@ -49,6 +49,7 @@ var imagenes = [
     ruta: "imagenes/img6.PNG",
   },
 ];
+
 // crear el tablero donde iran las imagenes
 var tablero = document.querySelector(".tablero");
 //variables para guardar los datos de la imagen escogida
@@ -75,34 +76,50 @@ let segundos;
 let estoyJugando = false;
 
 
+
+
 //evento para iniciar el juego
-btnIniciar.addEventListener('click', function contarTiempo(){
-  // btnIniciar.removeEventListener('click', contarTiempo, false);
+function iniciarJuego(){
+  btnIniciar.addEventListener('click', function contarTiempo() {
 
-  estoyJugando = true;
+    agregarImagenes();
 
-  agregarImagenes();
+    estoyJugando = true;
+    if ( estoyJugando == true){
+      btnIniciar.removeEventListener('click', contarTiempo);
+    } 
+    
+  
+  
+  
+    segundos = setInterval(function () {
+      tiempo-- //tiempo++ forma incremental, tiempo-- decremental
+      mostrarTiempo.textContent = tiempo;
+  
+      if (tiempo == 10) {
+        // clearInterval(segundos);
+        mostrarTiempo.style.color = "red";
+        mostrarTiempo.style.fontSize = "40px";
+      }
+      if (tiempo == 0) {
+        // clearInterval(segundos);
+        alert('Tiempo finalizado, PERDISTE');
+        location.reload();
+  
+      }
+  
+  
+  
+    }, 1000)
+  
+  
+  
+  })
+}
+iniciarJuego()
 
-  segundos = setInterval(function(){
-    tiempo-- //tiempo++ forma incremental, tiempo-- decremental
-    mostrarTiempo.textContent = tiempo;
-
-    if ( tiempo == 10){
-      // clearInterval(segundos);
-      mostrarTiempo.style.color = "red";
-      mostrarTiempo.style.fontSize = "40px";
-    }
-    if ( tiempo == 0){
-      // clearInterval(segundos);
-      alert('Tiempo finalizado, PERDISTE');
-      location.reload();
-      
-    }
 
 
-
-  },1000)
-})
 
 
 // agregar imagenes al tablero por js
@@ -120,14 +137,19 @@ function agregarImagenes() {
   }
 }
 
-function quitarImagenes(){
+function quitarImagenes() {
 
   let imagenesTablero = document.querySelectorAll('.tablero > div')
 
   for (let i = 0; i < imagenesTablero.length; i++) {
-      imagenesTablero[i].remove();
+    imagenesTablero[i].remove();
   }
 }
+
+// funcion para desactivar evento del btnIniciar
+
+
+
 
 // funcion para descubrir las imagenes (darle vuelta)
 
@@ -186,7 +208,7 @@ function compararImagenes() {
       // console.log(contador);
       mostrarAciertos.textContent = aciertos;
 
-      
+
     }
   } else {
     alert("Fallaste, No son la misma imagen");
@@ -206,8 +228,8 @@ function compararImagenes() {
   mostrarIntentos.textContent = intentos;
   if (aciertos == 6) {
     alert("Ganaste!!!!!!!!!!!!");
-    
-    
+
+
     // location.reload();
     clearInterval(segundos);
     aciertos = 0;
@@ -215,19 +237,21 @@ function compararImagenes() {
     tiempo = 60;
     nivel++
 
-    // validacion para saber si está jugando y en qué nivel 
-    estoyJugando = false;
-    if (nivel == x && estoyJugando == true){
-      // validacion
-    }
 
-    mostrarAciertos.textContent= aciertos;
+    mostrarAciertos.textContent = aciertos;
     mostrarIntentos.textContent = intentos;
     mostrarTiempo.textContent = tiempo;
     mostrartNivel.textContent = nivel;
     quitarImagenes();
 
-
+    // validacion para saber si está jugando y en qué nivel 
+    estoyJugando = false;
+    
+    if ( estoyJugando == false){
+      btnIniciar.addEventListener('click', iniciarJuego());
+    } 
+    
 
   }
 }
+
