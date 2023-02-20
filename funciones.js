@@ -228,16 +228,15 @@ function compararImagenes() {
   imgEscogidaID = [];
   intentos++;
   mostrarIntentos.textContent = intentos;
+
   if (aciertos == 6) {
     alert(`Felicitaciones, ganaste el nivel ${nivel}`);
-
-
-    // location.reload();
     clearInterval(segundos);
     aciertos = 0;
     intentos = 0;
     nivel++
 
+    //Generar los niveles
     if (nivel == 2){
       tiempo = 40;
     } else if (nivel == 3){
@@ -248,14 +247,9 @@ function compararImagenes() {
       tiempo = 15
       alert('JUEGO COMPLETADO, GANASTE!')
       location.reload();
-
-      
     } else {
       tiempo = 60
     }
-
-
-
 
     mostrarAciertos.textContent = aciertos;
     mostrarIntentos.textContent = intentos;
@@ -266,6 +260,7 @@ function compararImagenes() {
     // validacion para saber si está jugando y en qué nivel 
     estoyJugando = false;
     
+    // desactivar evento click del boton iniciar cuando esté ya jugando
     if ( estoyJugando == false){
       btnIniciar.addEventListener('click', iniciarJuego());
     } 
