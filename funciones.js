@@ -62,7 +62,8 @@ let mostrarAciertos = document.querySelector(".aciertos");
 let aciertos = 0;
 // variable contadora de intentos
 let mostrarIntentos = document.querySelector('.intentos');
-let intentos = 0;
+let intentos = 18;
+
 // variable para el cronometro
 let mostrarTiempo = document.querySelector('.tiempo');
 let tiempo = 60; // de forma incremental en 0, decrecer se pone desde le numero mayor, ej: 60
@@ -77,7 +78,7 @@ let estoyJugando = false;
 
 
 //variables sonidos
-let seleccionar = new Audio("sonidos/selccionar.mp3");
+let seleccionar = new Audio("sonidos/seleccionar.mp3");
 let levelWin = new Audio("sonidos/level-win.mp3");
 let fallo = new Audio("sonidos/fallo.mp3");
 let success = new Audio("sonidos/success.mp3");
@@ -86,7 +87,9 @@ let success = new Audio("sonidos/success.mp3");
 //evento para iniciar el juego
 function iniciarJuego() {
   btnIniciar.addEventListener('click', function contarTiempo() {
-    imagenes.sort(()=> Math.random() - 0.5);
+    imagenes.sort(() => Math.random() - 0.5);
+    mostrarIntentos.innerHTML = intentos;
+    mostrarTiempo.innerHTML = tiempo;
     estoyJugando = true;
     agregarImagenes();
 
@@ -149,6 +152,7 @@ function quitarImagenes() {
 // funcion para descubrir las imagenes (darle vuelta)
 
 function descubrirImagen() {
+  seleccionar.play();
   // this se refiere a la imagen que le demos click, vamos a tener un evento
   let imgID = this.getAttribute("id");
   // alert('imagen #'+imgID);
@@ -165,13 +169,14 @@ function descubrirImagen() {
 }
 
 function compararImagenes() {
+
   let TodasImagenes = document.querySelectorAll(".tablero > div > img");
   // comparar imagenes escogidas
   if (imgEscogidaNombre[0] == imgEscogidaNombre[1]) {
 
     //validar que no escojan la misma imagen
     if (imgEscogidaID[0] == imgEscogidaID[1]) {
-      seleccionar.play();
+
       alert("Debe escoger imagenes diferentes");
       TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
       TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
@@ -179,6 +184,7 @@ function compararImagenes() {
 
 
     } else {
+
       // removeEventListener a las img
 
       // alert(`Acertaste!`);
@@ -217,19 +223,19 @@ function compararImagenes() {
       "src",
       "imagenes/interrogacion.png"
     );
-      fallo.play();
+    fallo.play();
 
   }
   // reiniciar la variable
   imgEscogidaNombre = [];
   imgEscogidaID = [];
-  intentos++;
+  intentos--;
   mostrarIntentos.textContent = intentos;
 
-  if (aciertos == 6) {
+  if (nivel == 1) {
     clearInterval(segundos);
     aciertos = 0;
-    intentos = 0;
+    intentos = 12;
     nivel++
     levelWin.play()
     alert(`Felicitaciones, ganaste el nivel ${nivel}`);
@@ -237,16 +243,18 @@ function compararImagenes() {
 
     //Generar los niveles
     if (nivel == 2) {
-      tiempo = 40;
+
+      tiempo = 50;
+      intentos = 14
     } else if (nivel == 3) {
-      tiempo = 30;
-    } else if (nivel > 3 && nivel <= 5) {
-      tiempo = 20
-    } else if (nivel == 6) {
+      tiempo = 40;
+      intentos = 12
+    } else if (nivel == 4) {
       alert('JUEGO COMPLETADO, GANASTE!')
       location.reload();
     } else {
       tiempo = 60
+      intentos = 18
     }
 
     mostrarAciertos.textContent = aciertos;
@@ -263,6 +271,11 @@ function compararImagenes() {
       btnIniciar.addEventListener('click', iniciarJuego());
     }
 
+
+  } else if (intentos == 0) {
+    alert('Perdiste, Intentos terminados')
+    fallo.play();
+    location.reload();
 
   }
 }
