@@ -232,13 +232,13 @@ function compararImagenes() {
   intentos--;
   mostrarIntentos.textContent = intentos;
 
-  if (nivel == 1) {
-    clearInterval(segundos);
+  if (nivel == 1 && aciertos == 6) {
     aciertos = 0;
-    intentos = 12;
-    nivel++
+
     levelWin.play()
     alert(`Felicitaciones, ganaste el nivel ${nivel}`);
+    clearInterval(segundos);
+    nivel++
 
 
     //Generar los niveles
@@ -246,10 +246,26 @@ function compararImagenes() {
 
       tiempo = 50;
       intentos = 14
+      if (aciertos == 6) {
+        aciertos = 0;
+        levelWin.play()
+        alert(`Felicitaciones, ganaste el nivel ${nivel}`);
+        clearInterval(segundos);
+        nivel++
+      }
     } else if (nivel == 3) {
       tiempo = 40;
       intentos = 12
+      if (aciertos == 6) {
+        aciertos = 0;
+        levelWin.play()
+        alert(`Felicitaciones, ganaste el nivel ${nivel}`);
+        clearInterval(segundos);
+        nivel++
+      }
     } else if (nivel == 4) {
+      aciertos = 0;
+      levelWin.play()
       alert('JUEGO COMPLETADO, GANASTE!')
       location.reload();
     } else {
@@ -272,7 +288,7 @@ function compararImagenes() {
     }
 
 
-  } else if (intentos == 0) {
+  } else if (intentos == 0 && aciertos < 6) {
     alert('Perdiste, Intentos terminados')
     fallo.play();
     location.reload();
