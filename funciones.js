@@ -76,28 +76,30 @@ let segundos;
 let estoyJugando = false;
 
 
+//variables sonidos
+let seleccionar = new Audio("sonidos/selccionar.mp3");
+let levelWin = new Audio("sonidos/level-win.mp3");
+let fallo = new Audio("sonidos/fallo.mp3");
+let success = new Audio("sonidos/success.mp3");
 
 
 //evento para iniciar el juego
-function iniciarJuego(){
+function iniciarJuego() {
   btnIniciar.addEventListener('click', function contarTiempo() {
-
+    imagenes.sort(()=> Math.random() - 0.5);
+    estoyJugando = true;
     agregarImagenes();
 
-    estoyJugando = true;
     // validar boton click para no reiniciar el tablero
 
-    if ( estoyJugando == true){
+    if (estoyJugando == true) {
       btnIniciar.removeEventListener('click', contarTiempo);
-    } 
-    
-  
-  
-  
+    }
+
     segundos = setInterval(function () {
       tiempo-- //tiempo++ forma incremental, tiempo-- decremental
       mostrarTiempo.textContent = tiempo;
-  
+
       if (tiempo == 20) {
         // clearInterval(segundos);
         mostrarTiempo.style.color = "red";
@@ -107,21 +109,12 @@ function iniciarJuego(){
         // clearInterval(segundos);
         alert('Tiempo finalizado, PERDISTE');
         location.reload();
-  
+
       }
-  
-  
-  
     }, 1000)
-  
-  
-  
   })
 }
 iniciarJuego()
-
-
-
 
 
 // agregar imagenes al tablero por js
@@ -178,10 +171,12 @@ function compararImagenes() {
 
     //validar que no escojan la misma imagen
     if (imgEscogidaID[0] == imgEscogidaID[1]) {
-
+      seleccionar.play();
       alert("Debe escoger imagenes diferentes");
       TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
       TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
+      fallo.play();
+
 
     } else {
       // removeEventListener a las img
@@ -209,7 +204,7 @@ function compararImagenes() {
       aciertos++;
       // console.log(contador);
       mostrarAciertos.textContent = aciertos;
-
+      success.play();
 
     }
   } else {
@@ -222,6 +217,8 @@ function compararImagenes() {
       "src",
       "imagenes/interrogacion.png"
     );
+      fallo.play();
+
   }
   // reiniciar la variable
   imgEscogidaNombre = [];
@@ -230,21 +227,22 @@ function compararImagenes() {
   mostrarIntentos.textContent = intentos;
 
   if (aciertos == 6) {
-    alert(`Felicitaciones, ganaste el nivel ${nivel}`);
     clearInterval(segundos);
     aciertos = 0;
     intentos = 0;
     nivel++
+    levelWin.play()
+    alert(`Felicitaciones, ganaste el nivel ${nivel}`);
+
 
     //Generar los niveles
-    if (nivel == 2){
+    if (nivel == 2) {
       tiempo = 40;
-    } else if (nivel == 3){
+    } else if (nivel == 3) {
       tiempo = 30;
-    } else if (nivel > 3 && nivel < 5){
+    } else if (nivel > 3 && nivel <= 5) {
       tiempo = 20
-    } else if ( nivel <= 6){
-      tiempo = 15
+    } else if (nivel == 6) {
       alert('JUEGO COMPLETADO, GANASTE!')
       location.reload();
     } else {
@@ -259,12 +257,12 @@ function compararImagenes() {
 
     // validacion para saber si está jugando y en qué nivel 
     estoyJugando = false;
-    
+
     // desactivar evento click del boton iniciar cuando esté ya jugando
-    if ( estoyJugando == false){
+    if (estoyJugando == false) {
       btnIniciar.addEventListener('click', iniciarJuego());
-    } 
-    
+    }
+
 
   }
 }
