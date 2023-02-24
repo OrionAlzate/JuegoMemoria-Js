@@ -2,6 +2,7 @@ let intentosJugador = document.querySelector('.intentos');
 let tiempoJugador = document.querySelector('.tiempo');
 let nombreJugador = document.querySelector('.player');
 
+
 // tomar los datos del juego
 function tomarDatos(){
 
@@ -42,19 +43,23 @@ function mostrarDatos(){
     // pasar los datos de texto a objeto
     let datosDelNavegador = JSON.parse(localStorage.getItem(clave));
     if (datosDelNavegador !== null){
-        jugadores.push(datosDelNavegador);
+        jugadores.push(datosDelNavegador);;
     }
     console.log(jugadores)
-    jugadores.forEach((dato, i) => {
+    jugadores.forEach(function(dato, i) {
         let fila = document.createElement('tr');
         let tPosicion = document.createElement('td');
         let tNombre = document.createElement('td');
         let tIntentos = document.createElement('td');
         let tTiempo = document.createElement('td');
 
-
+        console.log(tNombre)
+        console.log(tIntentos)
+        console.log(tTiempo)
+        console.log(tPosicion)
+     
         // por aca hay un error
-        tPosicion.textContent = i;
+        tPosicion.innerHTML = (i+1);
         tNombre.innerHTML = dato.nombre;
         tTiempo.innerHTML = dato.tiempo;
         tIntentos.innerHTML = dato.intentos;
