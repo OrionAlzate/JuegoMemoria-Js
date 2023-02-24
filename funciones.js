@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function(){
+  mostrarDatos();
+})
+
 //declarar variables globales
 var imagenes = [
   {
@@ -88,14 +92,18 @@ let success = new Audio("sonidos/success.mp3");
 function iniciarJuego() {
   btnIniciar.addEventListener('click', function contarTiempo() {
     // imagenes.sort(() => Math.random() - 0.5);
-     
-    if (nivel == 1){
-      intentos = 18
-    } else if (nivel == 2){
-      intentos = 16
 
-    }else if (nivel == 3){
+    if (nivel == 1) {
+      intentos = 18;
+
+    } else if (nivel == 2) {
+      intentos = 16
+      tiempo = 50;
+
+
+    } else if (nivel == 3) {
       intentos = 14
+      tiempo = 40;
     }
     mostrarIntentos.innerHTML = intentos;
     mostrarTiempo.innerHTML = tiempo;
@@ -161,7 +169,7 @@ function quitarImagenes() {
 // funcion para descubrir las imagenes (darle vuelta)
 
 function descubrirImagen() {
-  
+
   seleccionar.play();
   // this se refiere a la imagen que le demos click, vamos a tener un evento
   let imgID = this.getAttribute("id");
@@ -186,14 +194,14 @@ function compararImagenes() {
 
     //validar que no escojan la misma imagen
     if (imgEscogidaID[0] == imgEscogidaID[1]) {
-      
+
       alert("Debe escoger imagenes diferentes");
       TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
       TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
       fallo.play();
       // intentos--;
       // mostrarIntentos.textContent = intentos;
-    
+
     } else {
       // removeEventListener a las img
 
@@ -233,15 +241,16 @@ function compararImagenes() {
       "imagenes/interrogacion.png"
     );
     fallo.play();
-    
+
   }
   // reiniciar la variable
   imgEscogidaNombre = [];
   imgEscogidaID = [];
   intentos--;
   mostrarIntentos.textContent = intentos;
-
+  
   if (nivel == 1 && aciertos == 6) {
+    tomarDatos();
     aciertos = 0;
     
     levelWin.play()
@@ -254,7 +263,7 @@ function compararImagenes() {
     mostrarTiempo.textContent = tiempo;
     mostrartNivel.textContent = nivel;
     quitarImagenes();
-    
+
     estoyJugando = false;
 
     if (estoyJugando == false) {
@@ -262,9 +271,8 @@ function compararImagenes() {
     }
 
   } if (nivel == 2) {
-    tiempo = 50;
-    
-    
+
+
 
     if (nivel == 2 && aciertos == 6) {
       aciertos = 0;
@@ -285,8 +293,8 @@ function compararImagenes() {
       }
     }
   } else if (nivel == 3) {
-    tiempo = 40;
-   
+
+
 
     if (nivel == 3 && aciertos == 6) {
       aciertos = 0;
@@ -314,6 +322,6 @@ function compararImagenes() {
   } else if (intentos == 0 && aciertos < 6) {
     alert('Perdiste, Intentos terminados')
     fallo.play();
-  } 
+  }
 }
 
