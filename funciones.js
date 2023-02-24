@@ -129,9 +129,11 @@ function iniciarJuego() {
         mostrarTiempo.style.fontWeight = "900";
         
       }
-      if (tiempo == 0) {
+      if (tiempo == 0 || intentos == 0 ) {
         // clearInterval(segundos);
+        fallo.play()
         alert('Tiempo finalizado, PERDISTE');
+        tomarDatos();
         location.reload();
 
       }
@@ -203,26 +205,20 @@ function compararImagenes() {
 
     } else {
       // removeEventListener a las img
+      success.play();
       aciertos++;
       TodasImagenes[imgEscogidaID[0]].setAttribute("src","imagenes/acierto.png");
       TodasImagenes[imgEscogidaID[1]].setAttribute("src","imagenes/acierto.png");
       TodasImagenes[imgEscogidaID[0]].removeEventListener("click",descubrirImagen,false);
       TodasImagenes[imgEscogidaID[1]].removeEventListener("click",descubrirImagen,false);
-      success.play();
       mostrarAciertos.textContent = aciertos;
 
     }
   } else {
     // alert("Fallaste, No son la misma imagen");
     fallo.play();
-    TodasImagenes[imgEscogidaID[0]].setAttribute(
-      "src",
-      "imagenes/interrogacion.png"
-    );
-    TodasImagenes[imgEscogidaID[1]].setAttribute(
-      "src",
-      "imagenes/interrogacion.png"
-    );
+    TodasImagenes[imgEscogidaID[0]].setAttribute("src","imagenes/interrogacion.png");
+    TodasImagenes[imgEscogidaID[1]].setAttribute("src","imagenes/interrogacion.png");
 
   }
   // reiniciar la variable
@@ -232,6 +228,7 @@ function compararImagenes() {
   mostrarIntentos.textContent = intentos;
   
   if (nivel == 1 && aciertos == 6) {
+    levelWin.play()
     nivel1();
   } if (nivel == 2) {
     nivel2();
@@ -240,14 +237,17 @@ function compararImagenes() {
   } else if (intentos == 0 && aciertos < 6) {
     alert('Perdiste, Intentos terminados')
     fallo.play();
+    tomarDatos();
     location.reload();
   }
 };
 
 
 function nivel1(){
+  
+  tiempo = 50
+  intentos = 16
   aciertos = 0;
-  levelWin.play()
   nivel++
   mostrarAciertos.textContent = aciertos;
   mostrarIntentos.textContent = intentos;
@@ -269,6 +269,8 @@ function nivel2(){
   if (nivel == 2 && aciertos == 6) {
     levelWin.play()
     aciertos = 0;
+    intentos = 14
+    tiempo = 40;
     nivel++
     mostrarAciertos.textContent = aciertos;
     mostrarIntentos.textContent = intentos;
@@ -289,7 +291,7 @@ function nivel2(){
 
 function nivel3(){
   if (nivel == 3 && aciertos == 6) {
-    aciertos = 0;
+  
     levelWin.play();
     alert(`Felicitaciones, ganaste el nivel 3`);
     tomarDatos();
