@@ -62,7 +62,7 @@ let mostrarAciertos = document.querySelector(".aciertos");
 let aciertos = 0;
 // variable contadora de intentos
 let mostrarIntentos = document.querySelector('.intentos');
-let intentos = 18;
+let intentos;
 
 // variable para el cronometro
 let mostrarTiempo = document.querySelector('.tiempo');
@@ -88,6 +88,15 @@ let success = new Audio("sonidos/success.mp3");
 function iniciarJuego() {
   btnIniciar.addEventListener('click', function contarTiempo() {
     // imagenes.sort(() => Math.random() - 0.5);
+     
+    if (nivel == 1){
+      intentos = 18
+    } else if (nivel == 2){
+      intentos = 16
+
+    }else if (nivel == 3){
+      intentos = 14
+    }
     mostrarIntentos.innerHTML = intentos;
     mostrarTiempo.innerHTML = tiempo;
     estoyJugando = true;
@@ -152,6 +161,7 @@ function quitarImagenes() {
 // funcion para descubrir las imagenes (darle vuelta)
 
 function descubrirImagen() {
+  
   seleccionar.play();
   // this se refiere a la imagen que le demos click, vamos a tener un evento
   let imgID = this.getAttribute("id");
@@ -176,18 +186,16 @@ function compararImagenes() {
 
     //validar que no escojan la misma imagen
     if (imgEscogidaID[0] == imgEscogidaID[1]) {
-
+      
       alert("Debe escoger imagenes diferentes");
       TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
       TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
       fallo.play();
-
-
+      // intentos--;
+      // mostrarIntentos.textContent = intentos;
+    
     } else {
-
       // removeEventListener a las img
-
-      // alert(`Acertaste!`);
 
       TodasImagenes[imgEscogidaID[0]].setAttribute(
         "src",
@@ -207,6 +215,7 @@ function compararImagenes() {
         descubrirImagen,
         false
       );
+      // intentos--;
       aciertos++;
       // console.log(contador);
       mostrarAciertos.textContent = aciertos;
@@ -224,7 +233,7 @@ function compararImagenes() {
       "imagenes/interrogacion.png"
     );
     fallo.play();
-
+    
   }
   // reiniciar la variable
   imgEscogidaNombre = [];
@@ -234,32 +243,28 @@ function compararImagenes() {
 
   if (nivel == 1 && aciertos == 6) {
     aciertos = 0;
-
+    
     levelWin.play()
     alert(`Felicitaciones, ganaste el nivel ${nivel}`);
     clearInterval(segundos);
     nivel++
-
-
-    //Generar los niveles
-
 
     mostrarAciertos.textContent = aciertos;
     mostrarIntentos.textContent = intentos;
     mostrarTiempo.textContent = tiempo;
     mostrartNivel.textContent = nivel;
     quitarImagenes();
-
+    
     estoyJugando = false;
 
     if (estoyJugando == false) {
       btnIniciar.addEventListener('click', iniciarJuego());
     }
 
-
   } if (nivel == 2) {
     tiempo = 50;
-    intentos = 140
+    
+    
 
     if (nivel == 2 && aciertos == 6) {
       aciertos = 0;
@@ -281,7 +286,7 @@ function compararImagenes() {
     }
   } else if (nivel == 3) {
     tiempo = 40;
-    intentos = 120
+   
 
     if (nivel == 3 && aciertos == 6) {
       aciertos = 0;
@@ -309,9 +314,6 @@ function compararImagenes() {
   } else if (intentos == 0 && aciertos < 6) {
     alert('Perdiste, Intentos terminados')
     fallo.play();
-  } else {
-    tiempo = 60
-    intentos = 18
-  }
+  } 
 }
 
