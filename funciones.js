@@ -87,7 +87,7 @@ let success = new Audio("sonidos/success.mp3");
 //evento para iniciar el juego
 function iniciarJuego() {
   btnIniciar.addEventListener('click', function contarTiempo() {
-    imagenes.sort(() => Math.random() - 0.5);
+    // imagenes.sort(() => Math.random() - 0.5);
     mostrarIntentos.innerHTML = intentos;
     mostrarTiempo.innerHTML = tiempo;
     estoyJugando = true;
@@ -242,36 +242,7 @@ function compararImagenes() {
 
 
     //Generar los niveles
-    if (nivel == 2) {
 
-      tiempo = 50;
-      intentos = 14
-      if (aciertos == 6) {
-        aciertos = 0;
-        levelWin.play()
-        alert(`Felicitaciones, ganaste el nivel ${nivel}`);
-        clearInterval(segundos);
-        nivel++
-      }
-    } else if (nivel == 3) {
-      tiempo = 40;
-      intentos = 12
-      if (aciertos == 6) {
-        aciertos = 0;
-        levelWin.play()
-        alert(`Felicitaciones, ganaste el nivel ${nivel}`);
-        clearInterval(segundos);
-        nivel++
-      }
-    } else if (nivel == 4) {
-      aciertos = 0;
-      levelWin.play()
-      alert('JUEGO COMPLETADO, GANASTE!')
-      location.reload();
-    } else {
-      tiempo = 60
-      intentos = 18
-    }
 
     mostrarAciertos.textContent = aciertos;
     mostrarIntentos.textContent = intentos;
@@ -279,20 +250,68 @@ function compararImagenes() {
     mostrartNivel.textContent = nivel;
     quitarImagenes();
 
-    // validacion para saber si está jugando y en qué nivel 
     estoyJugando = false;
 
-    // desactivar evento click del boton iniciar cuando esté ya jugando
     if (estoyJugando == false) {
       btnIniciar.addEventListener('click', iniciarJuego());
     }
 
 
+  } if (nivel == 2) {
+    tiempo = 50;
+    intentos = 140
+
+    if (nivel == 2 && aciertos == 6) {
+      aciertos = 0;
+      levelWin.play()
+      alert(`Felicitaciones, ganaste el nivel ${nivel}`);
+      clearInterval(segundos);
+      nivel++
+      mostrarAciertos.textContent = aciertos;
+      mostrarIntentos.textContent = intentos;
+      mostrarTiempo.textContent = tiempo;
+      mostrartNivel.textContent = nivel;
+      quitarImagenes();
+
+      estoyJugando = false;
+
+      if (estoyJugando == false) {
+        btnIniciar.addEventListener('click', iniciarJuego());
+      }
+    }
+  } else if (nivel == 3) {
+    tiempo = 40;
+    intentos = 120
+
+    if (nivel == 3 && aciertos == 6) {
+      aciertos = 0;
+      levelWin.play()
+      alert(`Felicitaciones, ganaste el nivel ${nivel}`);
+      clearInterval(segundos);
+      nivel++
+      mostrarAciertos.textContent = aciertos;
+      mostrarIntentos.textContent = intentos;
+      mostrarTiempo.textContent = tiempo;
+      mostrartNivel.textContent = nivel;
+      quitarImagenes();
+      alert('JUEGO COMPLETADO, GANASTE!')
+      location.reload();
+      aciertos = 0;
+      levelWin.play()
+      location.reload();
+
+      estoyJugando = false;
+
+      if (estoyJugando == false) {
+        btnIniciar.addEventListener('click', iniciarJuego());
+      }
+    }
   } else if (intentos == 0 && aciertos < 6) {
     alert('Perdiste, Intentos terminados')
     fallo.play();
-    location.reload();
-
+  } else {
+    tiempo = 60
+    intentos = 18
   }
 }
 
