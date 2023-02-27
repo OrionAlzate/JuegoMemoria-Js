@@ -66,16 +66,51 @@ function mostrarDatos(){
     
     // seleccionar la tabla para mostrar los datos
     let tabla = document.querySelector('.listado-tabla tbody');
+    // jugadores.sort((a,b)=> b.tiempo - a.tiempo);
+    jugadores.sort((a,b)=> {
+        if(b.nivel < a.nivel){
+            return -1;
+        }
+        if(b.nivel > a.nivel){
+            return 1;
+        }
+        if(Number(b.tiempo) < Number(a.tiempo)){
+            return -1;
+        }
+        if (Number(b.tiempo) > Number(a.tiempo)){
+            return 1;
+        }
+        
+        if (Number(b.aciertos) < Number(a.aciertos)){
+            return -1
+        }
+        if (Number(b.aciertos) > Number(a.aciertos)){
+            return 1;
+        }
+
+        if(Number(b.intentos) < Number(a.intentos)){
+            return -1;
+        }
+        if(Number(b.intentos) > Number(a.intentos)){
+            return 1;
+        }
+        if (a==b){
+            return 0;
+        }
+
+    })
+
+   
+
     jugadores.forEach((dato, i)=> {
         let fila = document.createElement('tr');
         fila.innerHTML = `
         <td> ${i+1}</td>
         <td> ${dato.nombre}</td>
         <td> ${dato.nivel}</td>
-        <td> ${dato.tiempo} seg.</td>
+        <td> ${dato.tiempo}</td>
         <td> ${dato.aciertos}</td>
         <td> ${dato.intentos}</td>`;
-
        
         tabla.appendChild(fila);
         

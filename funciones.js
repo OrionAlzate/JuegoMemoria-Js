@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+  mostrarVentanaJugador();
   mostrarDatos();
-mostrarVentanaJugador();
 
 })
 
@@ -243,7 +243,7 @@ function compararImagenes() {
   } else if (intentos == 0 && aciertos < 6) {
     alert('Perdiste, Intentos terminados')
     fallo.play();
-    tomarDatos();
+   
     location.reload();
 
   }
@@ -326,9 +326,23 @@ function mostrarVentanaJugador() {
       mostrarModal.style.display = "none";      
     })
   }
+  namePlayer();
 }
 
 // funcion tomar nombre del jugador
 function namePlayer(){
   // let mostrarJugador = document.querySelector('') // minuto 21 video guardarNombre.mp4
+  let mostrarJugador = document.querySelector('.player');
+  let btn_registrarJ = document.querySelector('.registrar');
+  btn_registrarJ.addEventListener('click', function(){
+    let nombreJ = document.querySelector('.nombreJ');
+    if(mostrarJugador.value == ""){
+      alert('Debe ingresar un nombre válido');
+    } else {
+      mostrarJugador.textContent = nombreJ.value;
+    }
+
+  })
+
+
 }
