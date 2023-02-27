@@ -1,5 +1,7 @@
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
   mostrarDatos();
+mostrarVentanaJugador();
+
 })
 
 //declarar variables globales
@@ -59,8 +61,6 @@ var tablero = document.querySelector(".tablero");
 //variables para guardar los datos de la imagen escogida
 let imgEscogidaID = [];
 let imgEscogidaNombre = [];
-
-
 //variable contadora de aciertos
 let mostrarAciertos = document.querySelector(".aciertos");
 let aciertos = 0;
@@ -86,7 +86,7 @@ let success = new Audio("sonidos/success.mp3");
 //evento para iniciar el juego
 function iniciarJuego() {
   btnIniciar.addEventListener('click', function contarTiempo() {
-    // imagenes.sort(() => Math.random() - 0.5);
+    imagenes.sort(() => Math.random() - 0.5);
 
     if (nivel == 1) {
       intentos = 18;
@@ -116,24 +116,29 @@ function iniciarJuego() {
       tiempo-- //tiempo++ forma incremental, tiempo-- decremental
       mostrarTiempo.textContent = tiempo;
 
-      if (intentos < 6 ) {
+      if (intentos < 6) {
         mostrarIntentos.style.color = "red"
         mostrarIntentos.style.fontWeight = "900"
       } else {
         mostrarIntentos.style.color = "#000"
         mostrarIntentos.style.fontWeight = "400"
       }
-      if (tiempo == 20 ) {
+      if (tiempo == 20) {
         // clearInterval(segundos);
         mostrarTiempo.style.color = "red";
         mostrarTiempo.style.fontWeight = "900";
-        
+
       }
-      if (tiempo == 0 || intentos == 0 ) {
+      if (tiempo == 0 || intentos == 0) {
         // clearInterval(segundos);
         fallo.play()
-        alert('Tiempo finalizado, PERDISTE');
+        if (tiempo == 0) {
+          alert('Tiempo finalizado, PERDISTE 😔');
+        } else if (intentos == 0) {
+          alert('Ya no tienes intentos, PERDISTE 😔');
+        }
         tomarDatos();
+        clearInterval(segundos);
         location.reload();
 
       }
@@ -201,24 +206,25 @@ function compararImagenes() {
       alert("Debe escoger imagenes diferentes");
       TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
       TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
-  
+
 
     } else {
+      // acierto
       // removeEventListener a las img
       success.play();
       aciertos++;
-      TodasImagenes[imgEscogidaID[0]].setAttribute("src","imagenes/acierto.png");
-      TodasImagenes[imgEscogidaID[1]].setAttribute("src","imagenes/acierto.png");
-      TodasImagenes[imgEscogidaID[0]].removeEventListener("click",descubrirImagen,false);
-      TodasImagenes[imgEscogidaID[1]].removeEventListener("click",descubrirImagen,false);
+      TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/acierto.png");
+      TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/acierto.png");
+      TodasImagenes[imgEscogidaID[0]].removeEventListener("click", descubrirImagen, false);
+      TodasImagenes[imgEscogidaID[1]].removeEventListener("click", descubrirImagen, false);
       mostrarAciertos.textContent = aciertos;
 
     }
   } else {
     // alert("Fallaste, No son la misma imagen");
     fallo.play();
-    TodasImagenes[imgEscogidaID[0]].setAttribute("src","imagenes/interrogacion.png");
-    TodasImagenes[imgEscogidaID[1]].setAttribute("src","imagenes/interrogacion.png");
+    TodasImagenes[imgEscogidaID[0]].setAttribute("src", "imagenes/interrogacion.png");
+    TodasImagenes[imgEscogidaID[1]].setAttribute("src", "imagenes/interrogacion.png");
 
   }
   // reiniciar la variable
@@ -226,7 +232,7 @@ function compararImagenes() {
   imgEscogidaID = [];
   intentos--;
   mostrarIntentos.textContent = intentos;
-  
+
   if (nivel == 1 && aciertos == 6) {
     levelWin.play()
     nivel1();
@@ -239,12 +245,13 @@ function compararImagenes() {
     fallo.play();
     tomarDatos();
     location.reload();
+
   }
 };
 
 
-function nivel1(){
-  
+function nivel1() {
+
   tiempo = 50
   intentos = 16
   aciertos = 0;
@@ -265,7 +272,7 @@ function nivel1(){
 };
 
 
-function nivel2(){
+function nivel2() {
   if (nivel == 2 && aciertos == 6) {
     levelWin.play()
     aciertos = 0;
@@ -289,9 +296,9 @@ function nivel2(){
 };
 
 
-function nivel3(){
+function nivel3() {
   if (nivel == 3 && aciertos == 6) {
-  
+
     levelWin.play();
     alert(`Felicitaciones, ganaste el nivel 3`);
     tomarDatos();
@@ -304,4 +311,24 @@ function nivel3(){
       btnIniciar.addEventListener('click', iniciarJuego());
     }
   }
+}
+
+// funcion mostrar ventana del nombre del jugador
+function mostrarVentanaJugador() {
+  let mostrarModal = document.querySelector('.modalNombre');
+  let cerrarModal = document.querySelectorAll('.cerrar');
+  mostrarModal.classList.add("show");
+  mostrarModal.style.display = "block";
+  for (let index = 0; index < cerrarModal.length; index++) {
+    cerrarModal[index].addEventListener("click", function(){
+      // alert('sirvo');
+      mostrarModal.classList.remove("show");
+      mostrarModal.style.display = "none";      
+    })
+  }
+}
+
+// funcion tomar nombre del jugador
+function namePlayer(){
+  // let mostrarJugador = document.querySelector('') // minuto 21 video guardarNombre.mp4
 }

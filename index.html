@@ -12,15 +12,11 @@
   <link rel="stylesheet" href="estilos.css">
   <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/2560/2560528.png" type="image/x-icon">
   <title>Juego de Memoria</title>
-  <style>
-    .tablero {
-      background-color: #413b5750;
-    }
-  </style>
+  
 </head>
 
 <body>
-  <div class="container">
+  <div class="container flex-wrap">
     <div class="row border-bottom border-dark">
       <div class="estadisticas">
         <h1 class="text-center text-warning bg-secondary py-5">Juego de Memoria</h1>
@@ -47,11 +43,11 @@
       </div>
     </div>
     <div class="row ">
-      <div class="col-8">
+      <div class="col-6">
         <div class="row g-0 tablero">
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-6">
         <table class="table listado-tabla">
           <thead class="table-dark">
             <tr>
@@ -69,6 +65,43 @@
       </div>
     </div>
   </div>
+
+
+  <!-- --------------VENTANA MODAL------------- -->
+
+  <!-- Button trigger modal -->
+<!-- <button type="button" style="display: none;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modalNombre modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Escribe tu nombre</h5>
+        <button type="button" class="btn-close cerrar" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Nombre:</label>
+            <input type="text" class="nombreJ form-control" aria-describedby="emailHelp">
+          </div>
+         
+           
+        </form>
+
+
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary cerrar" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

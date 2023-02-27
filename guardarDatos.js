@@ -3,8 +3,17 @@ let nivelJugador = document.querySelector('.nivel');
 let intentosJugador = document.querySelector('.intentos');
 let aciertosJugador = document.querySelector('.aciertos');
 let tiempoJugador = document.querySelector('.tiempo');
-let nombre = prompt('Ingrese su nombre')
-nombreJugador.textContent = nombre;
+
+// nombre por medio de un prompt
+// let nombre = prompt('Ingrese su nombre');
+// if (nombre === "" || nombre == null){
+//     nombre = prompt('Ingrese un nombre válido');
+//     if (nombre === "" || nombre == null){
+//         alert('Debe ingresar un nombre')
+//         location.reload();
+//     }
+// } 
+// nombreJugador.textContent = nombre;
 
 
 // tomar los datos del juego
